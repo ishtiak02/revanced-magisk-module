@@ -65,7 +65,8 @@ jobs:
           overwrite: false
 
       - name: Switch to update branch
-        run: git checkout -f update || git switch --discard-changes --orphan update
+        run: |
+          git checkout -f update || { git switch --discard-changes --orphan update; : >dummy.json; }
 
       - name: Update changelog and Magisk update jsons
         id: update_config
@@ -106,4 +107,4 @@ jobs:
           branch: update
           skip_checkout: true
           file_pattern: latest_build.md *.json
-          commit_message: Bump ${{ steps.next_ver_code.outputs.NEXT_VER_CODE }}
+          commit_message: Bump version ${{ steps.next_ver_code.outputs.NEXT_VER_CODE }}
